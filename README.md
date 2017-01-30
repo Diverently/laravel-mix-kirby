@@ -94,4 +94,4 @@ This will be prepended to the individual file paths given to the `mix()` functio
 
 Default: `assets`
 
-> The idea behind this originally came from the `mix` Blade helper created for the Laravel framework. This is merely just a "translation" for the Kirby CMS
+> The idea behind this originally came from the `mix` Blade helper created for the Laravel framework. This is merely just a "translation" for the Kirby CMS, only that it also generates the correct HTML tag depending on what file type you request.

@@ -2,15 +2,13 @@
 /**
  * Laravel Mix helper for the Kirby CMS
  *
- *
- *
  * @version   1.0.0
  * @author    Robert Cordes <robert@diverently.com>
  */
 
 if (! function_exists('mix')) {
   /**
-   * Get the path to a versioned Mix file.
+   * Get the appropriate HTML tag with the right path for the (versioned) Mix file.
    *
    * @param  string  $path
    */
@@ -21,8 +19,8 @@ if (! function_exists('mix')) {
     static $pathExtension;
     static $mixFileLink;
 
-    $manifest_path = c::get('mixManifestPath', 'assets/mix-manifest.json');
-    $assets_path = c::get('mixAssetsPath', '/assets/');
+    $manifest_path = c::get('mix.manifest', 'assets/mix-manifest.json');
+    $assets_path = c::get('mix.assets', '/assets/');
 
     if (str::startsWith($manifest_path, '/')) {
       $manifest_path = str::substr($manifest_path, 1);

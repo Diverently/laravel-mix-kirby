@@ -54,7 +54,9 @@ With that setup I start with the following `webpack.mix.js`:
 
 ```js
 mix.setPublicPath('kirby/assets/')
-mix.js('src/js/main.js', 'kirby/assets/js/')
+mix.browserSync('my-website.dev')
+mix.sourceMaps()
+   .js('src/js/main.js', 'kirby/assets/js/')
    .sass('src/css/main.scss', 'kirby/assets/css')
    .version();
 ```
@@ -69,11 +71,11 @@ The `mix()` helper function reads the `mix-manifest.json` file and returns the r
 <head>
   // ...
 
-  <?= mix('css/main.css') ?>
+  <?= mix('/css/main.css') ?>
 </head>
 
 // snippets/footer.php
-  <?= mix('js/main.js') ?>
+  <?= mix('/js/main.js') ?>
 </body>
 </html>
 ```

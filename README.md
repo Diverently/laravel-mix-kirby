@@ -86,12 +86,12 @@ And that's it, actually.
 
 In your `site/config/config.php` you can set two options to make this helper work with your specific setup:
 
-#### `mixManifestPath`
+#### `mix.manifest`
 This is where the helper function will look for the manifest created by Laravel Mix.
 
 Default: `assets/mix-manifest.json`
 
-#### `mixAssetsPath`
+#### `mix.assets`
 This will be prepended to the individual file paths given to the `mix()` function when creating the final HTML tags.
 
 Default: `assets`

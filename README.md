@@ -28,13 +28,13 @@ You should also install **Laravel Mix**, otherwise this plugin is pretty useless
 
 In your `site/config/config.php` you can set two options to make this helper work with your specific setup:
 
-### `diverently.laravel-mix-kirby.manifestPath`
+#### `diverently.laravel-mix-kirby.manifestPath`
 
 This is where the helper function will look for the manifest created by Laravel Mix.
 
 Default: `assets/mix-manifest.json`
 
-### `diverently.laravel-mix-kirby.assetsDirectory`
+#### `diverently.laravel-mix-kirby.assetsDirectory`
 
 This will be prepended to the individual file paths given to the `mix()` function when creating the final HTML tags.
 
@@ -49,11 +49,11 @@ The `mix()` helper function reads the `mix-manifest.json` file and returns the r
 ```php
 <html>
 <head>
-    // ...
+    <!-- ... -->
     <?php echo mix('/main.css') ?>
 </head>
 <body>
-    // ...
+    <!-- ... -->
     <?php echo mix('/main.js') ?>
 </body>
 </html>
@@ -71,16 +71,17 @@ After that you can start using Laravel Mix in your project.
 
 ### `webpack.mix.js`
 
-See the [official document](https://laravel-mix.com/docs/4.0/basic-example) for more information.
+See the [official documentation](https://laravel-mix.com/docs/4.0/basic-example) for more information.
 
 ```js
-let mix = require('laravel-mix)
-mix.setPublicPath('assets')
-mix.browserSync('my-website.dev')
-mix.sourceMaps()
-   .js('src/js/main.js', 'assets')
-   .sass('src/css/main.scss', 'assets')
-   .version();
+let mix = require("laravel-mix")
+mix.setPublicPath("assets")
+mix.browserSync("my-website.dev")
+mix
+  .sourceMaps()
+  .js("src/js/main.js", "assets")
+  .sass("src/css/main.scss", "assets")
+  .version()
 ```
 
 ### NPM scripts
@@ -99,11 +100,12 @@ Add the following NPM scripts to your `package.json`:
 
 ## License
 
-MIT
+[MIT](https://github.com/Diverently/laravel-mix-kirby/blob/master/LICENSE.md)
 
 ## Credits
 
 [Robert Cordes](https://github.com/RobertCordes)
+
 [Diverently](https://diverently.com)
 
 > The idea behind this originally came from the `mix` Blade helper created for the Laravel framework. This is merely a "translation" for the Kirby CMS, only that it also generates the correct HTML tag depending on what file type you request.

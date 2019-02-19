@@ -4,96 +4,106 @@ Use the `mix` helper function to get the correct path to your versioned CSS and 
 
 ## Installation
 
-Copy or link the `laravel-mix-kirby` directory to `site/plugins` or use the [Kirby CLI](https://github.com/getkirby/cli): `kirby plugin:install diverently/laravel-mix-kirby`.
+### Download
 
-You should also install [Laravel Mix](https://github.com/JeffreyWay/laravel-mix), otherwise this plugin is pretty useless ;-) See the [installation guide](https://github.com/JeffreyWay/laravel-mix/blob/master/docs/installation.md) for further information, though it's actually pretty straight forward:
+Download and copy this repository to `site/plugins/laravel-mix-kirby`.
 
-1. If you haven't already, create a `package.json` inside your project root: `npm init -y`
-2. Install Laravel Mix: `npm install laravel-mix --save-dev`
-3. Move the `webpack.config.js` and `webpack.mix.js` files into your root: `cp -r node_modules/laravel-mix/setup/** ./`
-
-After that you can start using Laravel Mix in your project.
-
-### NPM scripts
-
-You should add the following NPM scripts to your `package.json` to speed up your workflow:
-
-```json
-"scripts": {
-  "dev": "cross-env NODE_ENV=development webpack --progress --hide-modules",
-  "watch": "cross-env NODE_ENV=development webpack --watch --progress --hide-modules",
-  "production": "cross-env NODE_ENV=production webpack --progress --hide-modules"
-}
-```
-
-
-
-## Usage
-
-### Initial setup
-Depending on your preferred project structure you have to make some changes to your `webpack.mix.js`. You should set the paths where the `mix-manifest.json` as well as the CSS and JS files will be stored.
-I keep my source files outside the `kirby` (or `dist`) directory but you may have a different setup. Mine looks as follows:
+### Git submodule
 
 ```
-- kirby (or dist)
-  |- assets
-     |- css
-     |- js
-     |- ...
-- src
-  |- css
-     |- main.scss
-     |- ...
-  |- js
-     |- main.js
-     |- ...
-  |- ...
+git submodule add https://github.com/Diverently/laravel-mix-kirby.git site/plugins/laravel-mix-kirby
 ```
 
-With that setup I start with the following `webpack.mix.js`:
+### Composer
 
-```js
-mix.setPublicPath('kirby/assets/')
-mix.browserSync('my-website.dev')
-mix.sourceMaps()
-   .js('src/js/main.js', 'kirby/assets/js/')
-   .sass('src/css/main.scss', 'kirby/assets/css')
-   .version();
+```
+composer require diverently/laravel-mix-kirby
 ```
 
-When you run `npm run dev` your `main.js` and `main.css` files will be created. They will also be versioned which makes referencing them via the standard `css()` and `js()` methods pretty tedious. That’s where the helper function comes in (and thus this entire plugin).
+### Laravel Mix
+
+You should also install **Laravel Mix**, otherwise this plugin is pretty useless ;-) See the [installation guide](https://laravel-mix.com/docs/4.0/installation) for further information, though it's actually pretty straight forward:
+
+## Setup
+
+In your `site/config/config.php` you can set two options to make this helper work with your specific setup:
+
+### `diverently.laravel-mix-kirby.manifestPath`
+
+This is where the helper function will look for the manifest created by Laravel Mix.
+
+Default: `assets/mix-manifest.json`
+
+### `diverently.laravel-mix-kirby.assetsDirectory`
+
+This will be prepended to the individual file paths given to the `mix()` function when creating the final HTML tags.
+
+Default: `assets`
+
+## Options
 
 ### `mix()` helper function
-The `mix()` helper function reads the `mix-manifest.json` file and returns the right HTML tag with the correct (versioned) path to the requested file. In our example we would call it like so:
+
+The `mix()` helper function reads the `mix-manifest.json` file and returns the right HTML tag with the correct path to the requested file. In our example we would call it like so:
 
 ```php
-// snippets/header.php
+<html>
 <head>
-  // ...
-
-  <?= mix('/css/main.css') ?>
+    // ...
+    <?php echo mix('/main.css') ?>
 </head>
-
-// snippets/footer.php
-  <?= mix('/js/main.js') ?>
+<body>
+    // ...
+    <?php echo mix('/main.js') ?>
 </body>
 </html>
 ```
 
 And that's it, actually.
 
-### Options
+## Development
 
-In your `site/config/config.php` you can set two options to make this helper work with your specific setup:
+1. If you haven't already, create a `package.json` inside your project root: `npm init -y`
+2. Install Laravel Mix: `npm install laravel-mix --save-dev`
+3. Copy the `webpack.mix.js` file into your root: `cp node_modules/laravel-mix/setup/webpack.mix.js ./`
 
-#### `mix.manifest`
-This is where the helper function will look for the manifest created by Laravel Mix.
+After that you can start using Laravel Mix in your project.
 
-Default: `assets/mix-manifest.json`
+### `webpack.mix.js`
 
-#### `mix.assets`
-This will be prepended to the individual file paths given to the `mix()` function when creating the final HTML tags.
+See the [official document](https://laravel-mix.com/docs/4.0/basic-example) for more information.
 
-Default: `assets`
+```js
+let mix = require('laravel-mix)
+mix.setPublicPath('assets')
+mix.browserSync('my-website.dev')
+mix.sourceMaps()
+   .js('src/js/main.js', 'assets')
+   .sass('src/css/main.scss', 'assets')
+   .version();
+```
 
-> The idea behind this originally came from the `mix` Blade helper created for the Laravel framework. This is merely just a "translation" for the Kirby CMS, only that it also generates the correct HTML tag depending on what file type you request.
+### NPM scripts
+
+Add the following NPM scripts to your `package.json`:
+
+```json
+"scripts": {
+    "dev": "npm run development",
+    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "prod": "npm run production",
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+}
+```
+
+## License
+
+MIT
+
+## Credits
+
+[Robert Cordes](https://github.com/RobertCordes)
+[Diverently](https://diverently.com)
+
+> The idea behind this originally came from the `mix` Blade helper created for the Laravel framework. This is merely a "translation" for the Kirby CMS, only that it also generates the correct HTML tag depending on what file type you request.

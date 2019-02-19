@@ -1,0 +1,13 @@
+{
+    "name": "diverently/laravel-mix-kirby",
+    "description": "Laravel Mix helper for the Kirby CMS",
+    "type": "kirby-plugin",
+    "license": "MIT",
+    "authors": [{
+        "name": "Robert Cordes",
+        "email": "robert@diverently.com"
+    }],
+    "require": {
+        "getkirby/composer-installer": "^1.1"
+    }
+}

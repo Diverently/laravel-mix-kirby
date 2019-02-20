@@ -29,16 +29,8 @@ if (! function_exists('mix')) {
             $manifestPath = Str::substr($manifestPath, 1);
         }
 
-        // Get the correct $$assetsDirectory
-        $assetsDirectory = option('diverently.laravel-mix-kirby.assetsDirectory', '/assets/');
-
-        if (! Str::startsWith($assetsDirectory, '/')) {
-            $assetsDirectory = "/{$assetsDirectory}";
-        }
-
-        if (! Str::endsWith($assetsDirectory, '/')) {
-            $assetsDirectory = "{$assetsDirectory}/";
-        }
+        // Get the correct $assetsDirectory
+        $assetsDirectory = option('diverently.laravel-mix-kirby.assetsDirectory', '/assets');
 
         // Get the manifest contents
         if (!$manifest) {

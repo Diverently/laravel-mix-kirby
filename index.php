@@ -15,10 +15,21 @@ if (! function_exists('mix')) {
      */
     function mix($path)
     {
+        // Handle arrays
+        if (is_array($path)) {
+            $assets = [];
+
+            foreach($path as $p) {
+                $assets[] = mix($p);
+            }
+
+            return implode(PHP_EOL, $assets) . PHP_EOL;
+        }
+
         static $manifest = [];
 
         // Get the correct $path
-        if (!Str::startsWith($path, '/')) {
+        if (!Str::startsWith($path, '/') && !Str::contains($path, '@auto')) {
             $path = "/{$path}";
         }
 
@@ -36,13 +47,30 @@ if (! function_exists('mix')) {
         if (!$manifest) {
             if (! F::exists($manifestPath)) {
                 if (option('debug')) {
-                    throw new Exception('The Mix manifest does not exists.');
+                    throw new Exception('The Mix manifest does not exist.');
                 } else {
                     return false;
                 }
             }
 
             $manifest = json_decode(F::read($manifestPath), 'json');
+        }
+
+        // Get auto templates
+        if (Str::contains($path, '@auto')) {
+            if ($path == '@autocss') {
+                $type = 'css';
+            } else if($path == '@autojs') {
+                $type = 'js';
+            } else {
+                if(option('debug')) {
+                    throw new Exception("File type not recognized");
+                } else {
+                    return false;
+                }
+            }
+
+            $path = '/'.$type.'/templates/'.kirby()->site()->page()->intendedTemplate().'.'.$type;
         }
 
         // Check if the manifest contains the given $path

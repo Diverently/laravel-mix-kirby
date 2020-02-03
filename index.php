@@ -15,10 +15,23 @@ if (! function_exists('mix')) {
      */
     function mix($path)
     {
+        // Handle arrays
+        if (is_array($path)) {
+            $assets = [];
+
+            foreach($path as $p) {
+                $assets[] = mix($p);
+            }
+
+            return implode(PHP_EOL, $assets) . PHP_EOL;
+        }
+
         static $manifest = [];
 
+        $isAuto = Str::contains($path, '@auto');
+
         // Get the correct $path
-        if (!Str::startsWith($path, '/')) {
+        if (!Str::startsWith($path, '/') && !$isAuto) {
             $path = "/{$path}";
         }
 
@@ -36,7 +49,7 @@ if (! function_exists('mix')) {
         if (!$manifest) {
             if (! F::exists($manifestPath)) {
                 if (option('debug')) {
-                    throw new Exception('The Mix manifest does not exists.');
+                    throw new Exception('The Mix manifest does not exist.');
                 } else {
                     return false;
                 }
@@ -45,9 +58,26 @@ if (! function_exists('mix')) {
             $manifest = json_decode(F::read($manifestPath), 'json');
         }
 
+        // Get auto templates
+        if ($isAuto) {
+            if ($path == '@autocss') {
+                $type = 'css';
+            } else if($path == '@autojs') {
+                $type = 'js';
+            } else {
+                if(option('debug')) {
+                    throw new Exception("File type not recognized");
+                } else {
+                    return false;
+                }
+            }
+
+            $path = '/'.$type.'/templates/'.kirby()->site()->page()->intendedTemplate().'.'.$type;
+        }
+
         // Check if the manifest contains the given $path
-        if (! array_key_exists($path, $manifest)) {
-            if (option('debug')) {
+        if (!array_key_exists($path, $manifest)) {
+            if (option('debug') && !$isAuto) {
                 throw new Exception("Unable to locate Mix file: {$path}.");
             } else {
                 return false;

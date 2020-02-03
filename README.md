@@ -51,10 +51,18 @@ The `mix()` helper function reads the `mix-manifest.json` file and returns the r
 <head>
     <!-- ... -->
     <?php echo mix('/main.css') ?>
+    <?php echo mix([
+      '/additional.css',
+      '@autocss'
+    ]) ?>
 </head>
 <body>
     <!-- ... -->
     <?php echo mix('/main.js') ?>
+    <?php echo mix([
+      '/additional.js',
+      '@autojs'
+    ]) ?>
 </body>
 </html>
 ```

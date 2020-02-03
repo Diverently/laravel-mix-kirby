@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [1.2.0] - 2020-02-03
+
+### Added
+
+- Added the ability to handle array values and auto templates. Thanks [@iv-agatha](https://github.com/iv-agatha)
+
 ## [1.1.1] - 2019-02-20
 
 ### Changed

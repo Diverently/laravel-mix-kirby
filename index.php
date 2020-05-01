@@ -15,6 +15,8 @@ if (! function_exists('mix')) {
      */
     function mix($path)
     {
+        $kirby = kirby();
+
         // Handle arrays
         if (is_array($path)) {
             $assets = [];
@@ -72,7 +74,7 @@ if (! function_exists('mix')) {
                 }
             }
 
-            $path = '/'.$type.'/templates/'.kirby()->site()->page()->intendedTemplate().'.'.$type;
+            $path = '/'.$type.'/templates/'.$kirby->site()->page()->intendedTemplate().'.'.$type;
         }
 
         // Check if the manifest contains the given $path
@@ -84,8 +86,18 @@ if (! function_exists('mix')) {
             }
         }
 
+        // Check if Mix is in hmr mode
+        $mixHmrFile = $kirby->root('index') . $assetsDirectory . '/hot';
+
         // Get the actual file path for the given $path
-        $mixFilePath = $assetsDirectory . $manifest[$path];
+        if (F::exists($mixHmrFile)) {
+            // Remove white space from string and remove ending forward slash
+            $hmrHost = preg_replace('/\s+/', '', F::read($mixHmrFile));
+            $hmrHost = substr($hmrHost, 0, -1);
+            $mixFilePath = $hmrHost . $manifest[$path];
+        } else {
+            $mixFilePath = $assetsDirectory . $manifest[$path];
+        }
 
         // Use the appropriate Kirby helper method to get the correct HTML tag
         $pathExtension = F::extension($mixFilePath);

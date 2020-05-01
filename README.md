@@ -85,11 +85,13 @@ See the [official documentation](https://laravel-mix.com/docs/4.0/basic-example)
 let mix = require("laravel-mix")
 mix.setPublicPath("assets")
 mix.browserSync("my-website.dev")
+if (mix.inProduction()) {
+  mix.version()
+}
 mix
   .sourceMaps()
   .js("src/js/main.js", "assets")
   .sass("src/css/main.scss", "assets")
-  .version()
 ```
 
 ### NPM scripts
@@ -100,7 +102,8 @@ Add the following NPM scripts to your `package.json`:
 "scripts": {
     "dev": "npm run development",
     "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "npm run development -- --watch",
+    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --disable-host-check --config=node_modules/laravel-mix/setup/webpack.config.js",
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
 }

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [1.3.0] - 2020-05-01
+
+### Added
+
+- Added support for [Hot Module Replacement](https://laravel-mix.com/docs/5.0/hot-module-replacement) . Thanks [@johannschopplich](https://github.com/johannschopplich)
+
 ## [1.2.0] - 2020-02-03
 
 ### Added

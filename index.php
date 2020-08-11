@@ -8,12 +8,16 @@ if (! function_exists('mix')) {
      * Get the appropriate HTML tag with the right path for the (versioned) Mix file.
      *
      * @param string $path Path as it appears in the mix-manifest.json
-     *
+     * @param string|bool|array $options Pass an array of attributes for the tag 
+     * or a string/bool. A string behaves in the same way as in Kirby's `css()` 
+     * and `js()` helper functions: for css files it will be used as the value 
+     * of the media attribute, for js files it will determine wether or not the 
+     * script is async.
      * @return string Either a <link> or a <script> tag, depending on the $path
      *
      * @throws \Exception
      */
-    function mix($path)
+    function mix($path, $options = null)
     {
         $kirby = kirby();
 
@@ -103,9 +107,9 @@ if (! function_exists('mix')) {
         $pathExtension = F::extension($mixFilePath);
 
         if (Str::contains($pathExtension, 'css')) {
-            $mixFileLink = css($mixFilePath);
+            $mixFileLink = css($mixFilePath, $options);
         } elseif (Str::contains($pathExtension, 'js')) {
-            $mixFileLink = js($mixFilePath);
+            $mixFileLink = js($mixFilePath, $options);
         } else {
             if (option('debug')) {
                 throw new Exception("File type not recognized");

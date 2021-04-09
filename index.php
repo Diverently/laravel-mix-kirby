@@ -7,7 +7,8 @@ if (! function_exists('mix')) {
     /**
      * Get the appropriate HTML tag with the right path for the (versioned) Mix file.
      *
-     * @param string $path Path as it appears in the mix-manifest.json
+     * @param string|array $path Path as it appears in the mix-manifest.json or an
+     * array of paths to look for
      * @param string|bool|array $options Pass an array of attributes for the tag 
      * or a string/bool. A string behaves in the same way as in Kirby's `css()` 
      * and `js()` helper functions: for css files it will be used as the value 

@@ -26,7 +26,7 @@ if (! function_exists('mix')) {
             $assets = [];
 
             foreach($path as $p) {
-                $assets[] = mix($p);
+                $assets[] = mix($p, $options);
             }
 
             return implode(PHP_EOL, $assets) . PHP_EOL;

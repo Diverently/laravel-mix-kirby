@@ -2,6 +2,7 @@
     "name": "diverently/laravel-mix-kirby",
     "description": "Laravel Mix helper for the Kirby CMS",
     "type": "kirby-plugin",
+    "version": "1.4.2",
     "license": "MIT",
     "authors": [{
         "name": "Robert Cordes",
